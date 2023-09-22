@@ -4,7 +4,7 @@ public class codigoBasura {
     int numHoras = 15; 
 
     // Crear la matriz
-    String[][] matrizHorasDias = new String[numDias + 1][numHoras + 1];
+    String[][] matrizHorasDias = new String[numDias + 1][numHoras + 1] ;
 
     // Llenar la matriz
     for (int dia = 0; dia <= numDias; dia++) {
@@ -28,4 +28,5 @@ public class codigoBasura {
         }
         System.out.println(); // Saltar a la siguiente línea después de cada fila
     }
+}
 }
