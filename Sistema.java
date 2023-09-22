@@ -52,7 +52,7 @@ public class Sistema{
         try (BufferedReader br = new BufferedReader(new FileReader(cursosCSV))) {
             String linea;
             primeraLinea= true;
-
+            ArrayList<String> diasCursos;
             while ((linea = br.readLine()) != null) {
                 
                 if (primeraLinea) {
@@ -72,7 +72,8 @@ public class Sistema{
                     String duracion = columnas[4];
                     String stringDias = columnas[5];
                     String[] valoresDias = stringDias.split(";");
-                    ArrayList<String> diasCursos = new ArrayList<>(Arrays.asList(valoresDias));
+                    
+                    diasCursos = new ArrayList<>(Arrays.asList(valoresDias));
 
                     String cantidad_estudiante = columnas[6];
         
