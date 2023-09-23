@@ -47,10 +47,17 @@ public class Salon {
     }
 
     
+    public ArrayList<Curso> getCursos() {
+        return cursos;
+    } 
+
+    
     @Override
     public String toString() {
         return "Salón de ID: " + id_salon + ", se encuentra en el edificio " + edificio + " en la sede con ID " + id_sede + " en el nivel " + nivel +  " con capcidad de " + capacidad + " personas.";
-    } 
+    }
+
+
     
     
 }

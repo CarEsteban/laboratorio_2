@@ -1,5 +1,8 @@
 import java.util.*;
+
+
 import java.io.*;
+import java.lang.Character.Subset;
 
 public class Sistema{
     public static void main(String[] args ) throws InterruptedException  {
@@ -188,16 +191,87 @@ public class Sistema{
                     break;
                 case 3:
                     System.out.println("BIENVENIDO A LA ASIGNACION DE SALON");
+                    
                     break;
                 case 4:
                     System.out.println("BIENVENIDO AL INFORME");
-                    System.out.println("Porfavor seleccione una opción");
+                    System.out.println("Seleccione una opción:\n" + "1. Listado de cursos que no se les pudo asignar salón.\n" +
+                                                                    "2. Listado de cursos a los que sí se les pudo asignar salón.\n" +
+                                                                    "3. Exportar resultado: Se podrá exportar un archivo, en donde se encuentre la relación salón - curso.\n" +
+                                                                    "4. Salir\n" +
+                                                                    "Ingrese el número de opción:");
+                    
+                    menu = scan.nextInt();scan.nextLine();
+
+                    switch (menu) {
+                        case 1:
+                            System.out.println("CURSOS SIN SALON");
+                            for (int i = 0; i < cursos.size(); i++) {
+                                if(cursos.get(i).getId_salon() == 0 ){
+                                    System.out.println(cursos.get(i).getNombre_curso());
+                                }
+                            }
+                            break;
+                        case 2:
+                            System.out.println("CURSOS CON SALON");
+                            for (int i = 0; i < cursos.size(); i++) {
+                                if(cursos.get(i).getId_salon() != 0 ){
+                                    System.out.println(cursos.get(i).getNombre_curso());
+                                }
+                            }
+                            break;
+                        case 3:
+                            System.out.println("EXPORTAR CSV");
+                            try (BufferedWriter writer = new BufferedWriter(new FileWriter("exportacion.csv"))) {
+                                
+                                writer.write("Salon,Cursos\n");
+                            
+                                for (Salon salon : salones) {
+                                    int id = salon.getId_salon(); 
+                                    ArrayList<Curso> curs = salon.getCursos(); 
+                            
+                                    // Escribir los valores en el archivo CSV
+                                    writer.write(id + "," + curs + "\n");
+                                }
+
+                                
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            
+                            break;
+                        case 4:
+                            break;
+                        default:
+                            System.out.println("Opción no válida. Por favor, seleccione una opción válida.");
+                            break;
+                    }
+                    
+                    
+                    
                     break;
                 case 5:
                     System.out.println("Saliendo del programa....");
                     continuar=false;
                     break;
+                default:
+                    System.out.println("Opcion no valida");
+                    break;
             }
+
+            System.out.println("Desea regresar al menu? 1)Si 2)No");
+            opc = scan.nextInt();
+            scan.nextLine();
+            if(opc==1){
+                continuar=true;
+            }else if(opc==2){
+                System.out.println("Saliendo del programa....");
+                continuar=false;
+            }else{
+                System.out.println("opcion no valida");
+                continuar=false;
+            }
+
         }
 
         scan.close();
