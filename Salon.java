@@ -49,8 +49,8 @@ public class Salon {
     
     @Override
     public String toString() {
-        return "Salon [id_salon=" + id_salon + ", id_sede=" + id_sede + ", nivel=" + nivel + ", capacidad=" + capacidad
-                + ", edificio=" + edificio + ", cursos=" + cursos + "]";
-    }
+        return "Salón de ID: " + id_salon + ", se encuentra en el edificio " + edificio + " en la sede con ID " + id_sede + " en el nivel " + nivel +  " con capcidad de " + capacidad + " personas.";
+    } 
+    
     
 }
