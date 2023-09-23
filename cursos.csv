@@ -1,14 +1,15 @@
 ﻿id_curso,id_sede,nombre_curso,horario,duracion,dias,cantidad_estudiantes
-1,110,fisica,7,2,lunes;miercoles;jueves,15
-2,110,poo,7,2,martes;jueves,20
-3,110,calculo 1,9,2,lunes;miercoles;jueves,29
-4,110,ciudadania,10,1,miercoles;sabado,23
-5,110,retos ambientales,11,2,martes;jueves,26
-6,110,ecuaciones diferenciales,8,2,lunes;jueves,33
+1,110,fisica,7,2,lunes,15
+2,110,poo,7,2,miercoles,20
+3,110,calculo 1,9,2,sabado,29
+4,110,ciudadania,10,1,martes,23
+5,110,retos ambientales,11,2,jueves,26
+6,110,ecuaciones diferenciales,8,2,lunes,33
 7,110,calculo 2,9,1,viernes,30
-8,110,pensamiento cuantitativo,13,2,lunes;viernes,22
-9,110,ciencias de la vida,16,2,martes;jueves,10
-10,110,algoritmos,14,1,lunes;miercoles;jueves,15
-11,110,introduccion,12,1,lunes;miercoles;viernes,17
-12,110,algebra,10,2,lunes;martes,14
-13,110,quimica,11,1,sabado,23
+8,110,pensamiento cuantitativo,13,2,lunes,22
+9,110,ciencias de la vida,16,2,viernes,10
+10,110,algoritmos,14,1,sabado,15
+11,110,introduccion,12,1,miercoles,17
+12,110,algebra,10,2,jueves,14
+13,110,quimica,11,1,lunes,23
+,,,,,,

@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Salon {
 
 
-    int id_salon, id_sede, nivel, capacidad;
+    int id_salon, id_sede, nivel, capacidad,filaMatriz,columnaMatriz;
     char edificio;
     ArrayList<Curso> cursos;
 
@@ -51,6 +51,22 @@ public class Salon {
         return cursos;
     } 
 
+    public void setFilaMatriz(int filaMatriz){
+        this.filaMatriz = filaMatriz;
+    }
+
+    public int getFilaMatriz(){
+        return filaMatriz;
+    }
+
+    public void setcolumnaMatriz(int columnaMatriz){
+        this.columnaMatriz = columnaMatriz;
+    }
+
+    public int getcolumnaMatriz(){
+        return columnaMatriz;
+    }
+    
     
     @Override
     public String toString() {

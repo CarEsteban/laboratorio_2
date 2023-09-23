@@ -2,19 +2,19 @@ import java.util.*;
 
 
 import java.io.*;
-import java.lang.Character.Subset;
 
 public class Sistema{
     public static void main(String[] args ) throws InterruptedException  {
-        int menu, opc, idCurso;
+        int menu, opc, idCurso, numeroDia=0;
         String searchEdificio, idSede,searchNivel,idSalon;
         String[] dias = {"","Lunes","Martes","Mie","Jueves","Viernes","Sábado"};
         Integer[] horas = {0,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21};
 
+
         ArrayList<Curso> cursos = new ArrayList<Curso>();
         ArrayList<Salon> salones = new ArrayList<Salon>();
         Scanner scan = new Scanner(System.in); 
-        boolean primeraLinea= true , continuar=true;
+        boolean primeraLinea= true , continuar=true, encontrado=false;
 
         String[][] matrizSalon = new String[horas.length][dias.length];
 
@@ -74,15 +74,13 @@ public class Sistema{
                     String nombre_curso = columnas[2];
                     String horario = columnas[3];
                     String duracion = columnas[4];
-                    String stringDias = columnas[5];
-                    String[] valoresDias = stringDias.split(";");
+                    String dia = columnas[5];
                     
-                    diasCursos = new ArrayList<>(Arrays.asList(valoresDias));
 
                     String cantidad_estudiante = columnas[6];
         
                     // Crear un objeto Salon y agregarlo a la lista
-                    cursos.add(new Curso(Integer.valueOf(id_curso),Integer.valueOf(id_sede),Integer.valueOf(horario),Integer.valueOf(duracion), diasCursos ,Integer.valueOf(cantidad_estudiante),nombre_curso));
+                    cursos.add(new Curso(Integer.valueOf(id_curso),Integer.valueOf(id_sede),Integer.valueOf(horario),Integer.valueOf(duracion), dia ,Integer.valueOf(cantidad_estudiante),nombre_curso));
                 }
             }
         } catch (IOException e) {
@@ -93,12 +91,92 @@ public class Sistema{
         //MENU DE OPCIONES
         
         while(continuar){
-            System.out.println("Seleccione una opcion para continuar:\n1) Consultar un salón\n2) Consultar un curso\n3) Asignar salon\n4) Ver el informe\n5) Salir");
+            System.out.println("Seleccione una opcion para continuar:\n1) Asignar salon\n2) Consultar un curso\n3) Consultar un salón\n4) Ver el informe\n5) Salir");
             menu = scan.nextInt();
             scan.nextLine();
 
             switch(menu){
+                case 2:
+                    System.out.println("BIENVENIDO A CONSULTAR UN CURSO");
+                    System.out.println("Porfavor ingrese el ID del curso para ver la información");
+                    idCurso = scan.nextInt();
+                    scan.nextLine();
+
+                    System.out.println(cursos.get(idCurso-1).toString());
+
+
+                    break;
                 case 1:
+
+                    System.out.println("BIENVENIDO A LA ASIGNACION DE SALON");
+                    System.out.println("Ingrese el ID del curso a asignar:");
+                    int idCursoAsignar = scan.nextInt();
+                    scan.nextLine();
+                
+                    Curso cursoAsignar = null;
+                    for (Curso curso : cursos) {
+                        if (curso.getId_curso() == idCursoAsignar) {
+                            cursoAsignar = curso;
+                            break;
+                        }
+                    }
+                
+                    if (cursoAsignar != null) {
+                        System.out.println("Ingrese el ID del salón:");
+                        int idSalonAsignar = scan.nextInt();
+                        scan.nextLine();
+                
+                        // Buscar el salón por ID
+                        Salon salonAsignar = null;
+                        for (Salon salon : salones) {
+                            if (salon.getId_salon() == idSalonAsignar) {
+                                salonAsignar = salon;
+                                break;
+                            }
+                        }
+                
+                        if (salonAsignar != null) {
+                            System.out.println("La hora de inicio será : " + cursoAsignar.getHorario());
+                            int horaAsignar = cursoAsignar.getHorario();
+                
+                            System.out.println("Los dias de la semana serán: "+cursoAsignar.getDia());
+                            String diaAsignar = cursoAsignar.getDia();
+                
+                            if (horaAsignar >= 7 && horaAsignar <= 21) {
+                
+                                int filaMatriz = horaAsignar - 6; 
+                                if (diaAsignar.equals("lunes")) {
+                                    numeroDia = 1;
+                                } else if (diaAsignar.equals("martes")) {
+                                    numeroDia = 2;
+                                } else if (diaAsignar.equals("miercoles")) {
+                                    numeroDia = 3;
+                                } else if (diaAsignar.equals("jueves")) {
+                                    numeroDia = 4;
+                                } else if (diaAsignar.equals("viernes")) {
+                                    numeroDia = 5;
+                                } else if (diaAsignar.equals("sabado")) {
+                                    numeroDia = 6;
+                                } else {
+                                    System.out.println("Nombre del día no válido.");
+                                }
+                                int columnaMatriz = numeroDia;
+                
+                                matrizSalon[filaMatriz][columnaMatriz] = cursoAsignar.getNombre_curso();
+                
+                                System.out.println("Curso asignado exitosamente.");
+                            } else {
+                                System.out.println("Hora o día ingresados no válidos.");
+                            }
+                        } else {
+                            System.out.println("Salón no encontrado.");
+                        }
+                    } else {
+                        System.out.println("Curso no encontrado.");
+                    }
+                    break;
+                
+                case 3:
                     System.out.println("BIENVENIDO A CONSULTAR UN SALON");
                     System.out.println("Ingrese el ID de la sede");
                     idSede = String.valueOf(scan.nextInt());
@@ -112,16 +190,11 @@ public class Sistema{
                     searchNivel = String.valueOf(scan.nextInt());
                     scan.nextLine();
 
-                    
-                    // Integer.toString(idSede);
-                    // Integer.toString(idSalon);
-                    // Integer.toString(searchNivel);
                     if (idSede.isEmpty() || idSalon.isEmpty() || searchEdificio.isEmpty() || searchNivel.isEmpty()) {
                         System.out.println("Por favor, ingrese valores válidos para la búsqueda.");
                     } else {        
                         try (BufferedReader br = new BufferedReader(new FileReader(salonesCSV))) {
                             String linea;
-                            boolean encontrado = false;
                             int x = 0;
                             int indexSalon = -1;
 
@@ -129,7 +202,6 @@ public class Sistema{
                             while ((linea = br.readLine()) != null) {
                                 String[] columnas = linea.split(",");
 
-                                // Verificar si la línea cumple con los criterios de búsqueda
                                 if (columnas.length == 5 &&
                                     columnas[0].trim().equals(idSede) &&
                                     columnas[1].trim().equals(searchEdificio) &&
@@ -151,13 +223,13 @@ public class Sistema{
                                 for (int i = 0; i < horas.length; i++) {
                                     for (int j = 0; j < dias.length; j++) {
                                         if (i == 0 && j == 0) {
-                                            matrizSalon[i][j] = ""; // Esquina superior vacía
+                                            matrizSalon[i][j] = ""; 
                                         } else if (i == 0) {
-                                            matrizSalon[i][j] = dias[j]; // Primera fila con horas
+                                            matrizSalon[i][j] = dias[j]; 
                                         } else if (j == 0) {
-                                            matrizSalon[i][j] = "Hora " + horas[i]; // Primera columna con días
+                                            matrizSalon[i][j] = "Hora " + horas[i]; 
                                         } else {
-                                            matrizSalon[i][j] = "libre"; // Resto de las celdas
+                                            matrizSalon[i][j] = "libre"; 
                                         }
                                     }
                                 }
@@ -179,20 +251,8 @@ public class Sistema{
                         
                     
                     break;
-                case 2:
-                    System.out.println("BIENVENIDO A CONSULTAR UN CURSO");
-                    System.out.println("Porfavor ingrese el ID del curso para ver la información");
-                    idCurso = scan.nextInt();
-                    scan.nextLine();
-
-                    System.out.println(cursos.get(idCurso-1).toString());
-
-
-                    break;
-                case 3:
-                    System.out.println("BIENVENIDO A LA ASIGNACION DE SALON");
-                    
-                    break;
+                
+                
                 case 4:
                     System.out.println("BIENVENIDO AL INFORME");
                     System.out.println("Seleccione una opción:\n" + "1. Listado de cursos que no se les pudo asignar salón.\n" +
